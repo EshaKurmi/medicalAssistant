@@ -12,3 +12,4 @@ pypdf
 python-dotenv
 pydantic
 pinecone
+pyyaml==6.0.1
