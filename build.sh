@@ -8,3 +8,4 @@ pip install langchain-pinecone
 pip install sentence-transformers
 pip install pinecone
 pip install pyyaml
+pip install gunicorn
