@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+langchain
+langchain-groq
+langchain-community
+langchain-core
+langchain-huggingface
+langchain-text-splitters
+langchain-chroma
+langchain-pinecone
+chromadb
+sentence-transformers
+pypdf
+python-dotenv
+pydantic
+pinecone-client
