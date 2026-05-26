@@ -1,11 +1,11 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
 
-@app.on_event("startup")
-async def startup_event():
-    print("Server started")
+class ChatRequest(BaseModel):
+    query: str
 
 
 @app.get("/")
@@ -19,4 +19,12 @@ def home():
 def health():
     return {
         "status": "healthy"
+    }
+
+
+@app.post("/chat")
+async def chat(data: ChatRequest):
+
+    return {
+        "answer": f"You asked: {data.query}"
     }
