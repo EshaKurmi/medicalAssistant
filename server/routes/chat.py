@@ -1,38 +1,38 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import FastAPI
 from pydantic import BaseModel
-from server.logger import logger
 
-router = APIRouter(prefix="/api", tags=["Medical Chat"])
+app = FastAPI()
 
-rag_chain = None
 
 class ChatRequest(BaseModel):
-    question: str
+    query: str
 
-class ChatResponse(BaseModel):
-    question: str
-    answer: str
 
-@router.post("/chat", response_model=ChatResponse)
-async def chat(req: ChatRequest):
-    global rag_chain
+@app.on_event("startup")
+async def startup_event():
+    print("Server started")
 
-    if not req.question.strip():
-        raise HTTPException(
-            status_code=400,
-            detail="Question empty nahi ho sakta!"
-        )
 
-    logger.info(f"Question: {req.question}")
-    answer = rag_chain.invoke(req.question)
-    logger.info("Answer generated successfully")
-
-    return ChatResponse(question=req.question, answer=answer)
-
-@router.get("/health")
-async def health_check():
+@app.get("/")
+def home():
     return {
-        "status": "running",
-        "model": "llama3-8b-8192",
-        "vector_db": "pinecone"
+        "message": "Medical Assistant Running"
+    }
+
+
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy"
+    }
+
+
+@app.post("/chat")
+async def chat(data: ChatRequest):
+
+    user_message = data.query
+
+    # Temporary response
+    return {
+        "answer": f"You asked: {user_message}"
     }
