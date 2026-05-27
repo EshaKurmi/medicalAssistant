@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from server.rag.chain import get_rag_chain
-from server.logger import logger
+from rag.chain import get_rag_chain  # ✅
+from logger import logger            # ✅
 
 app = FastAPI(title="Medical Assistant API")
 

@@ -1,6 +1,6 @@
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_pinecone import PineconeVectorStore
-from server.logger import logger
+from logger import logger
 from pinecone import Pinecone, ServerlessSpec
 import os
 

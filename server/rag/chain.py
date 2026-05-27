@@ -2,8 +2,8 @@ from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
-from server.rag.embeddings import load_vector_store
-from server.logger import logger
+from rag.embeddings import load_vector_store
+from logger import logger
 import os
 
 MEDICAL_PROMPT = """You are an expert medical assistant.
