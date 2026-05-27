@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+gunicorn
+langchain
+langchain-groq
+langchain-community
+langchain-core
+langchain-huggingface
+langchain-text-splitters
+langchain-pinecone
+sentence-transformers
+pypdf
+python-dotenv
+pydantic
+pinecone
+pyyaml==6.0.1
