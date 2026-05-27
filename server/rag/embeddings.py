@@ -1,4 +1,4 @@
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEndpointEmbeddings
 from langchain_pinecone import PineconeVectorStore
 from logger import logger
 from pinecone import Pinecone
@@ -11,16 +11,12 @@ def get_embedding_function():
     if _embedding is not None:
         return _embedding
 
-    logger.info("Embedding model load ho raha hai...")
-    _embedding = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/paraphrase-MiniLM-L3-v2",
-        model_kwargs={"device": "cpu"},
-        encode_kwargs={
-            "batch_size": 1,
-            "normalize_embeddings": True
-        }
+    logger.info("HuggingFace API se embedding load ho rahi hai...")
+    _embedding = HuggingFaceEndpointEmbeddings(
+        model="sentence-transformers/paraphrase-MiniLM-L3-v2",
+        huggingfacehub_api_token=os.getenv("HF_API_TOKEN")
     )
-    logger.info("Embedding model ready!")
+    logger.info("Embedding ready!")
     return _embedding
 
 def load_vector_store():
