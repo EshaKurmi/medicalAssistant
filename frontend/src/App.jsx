@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
-const BACKEND_URL = "https://medicalassistant-61kf.onrender.com"; // 👈 Apna Render URL yahan dalo
+const BACKEND_URL = "https://medicalassistant-pp3n.onrender.com"; // 👈 Apna Render URL yahan dalo
 const USE_BACKEND = true; // true karo jab backend deploy ho jaye
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
