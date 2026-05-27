@@ -1,35 +1,23 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from rag.chain import get_rag_chain  # ✅
-from logger import logger            # ✅
+from rag.chain import get_rag_chain
+from logger import logger
 
 app = FastAPI(title="Medical Assistant API")
 
-# CORS — frontend se connect hone ke liye
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Production mein apna domain dalna
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Singleton chain — sirf ek baar load hoga
 rag_chain = None
 
 class ChatRequest(BaseModel):
     query: str
-
-@app.on_event("startup")
-async def startup_event():
-    global rag_chain
-    logger.info("Server start ho raha hai — RAG chain load ho rahi hai...")
-    try:
-        rag_chain = get_rag_chain()
-        logger.info("RAG chain ready!")
-    except Exception as e:
-        logger.error(f"Chain load nahi hui: {e}")
 
 @app.get("/")
 def home():
@@ -43,7 +31,8 @@ def health():
 async def chat(data: ChatRequest):
     global rag_chain
     if rag_chain is None:
-        return {"answer": "Server abhi ready nahi hai, thodi der mein try karo."}
+        logger.info("Pehli request — chain load ho rahi hai...")
+        rag_chain = get_rag_chain()
     try:
         logger.info(f"Query: {data.query}")
         answer = rag_chain.invoke(data.query)

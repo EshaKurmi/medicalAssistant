@@ -19,7 +19,6 @@ Question: {question}
 
 Answer:"""
 
-# Singleton — sirf ek baar banegi
 _chain = None
 
 def get_rag_chain():
@@ -28,19 +27,18 @@ def get_rag_chain():
         logger.info("Chain already loaded — reuse kar raha hoon")
         return _chain
 
-    logger.info("RAG chain pehli baar ban rahi hai...")
-
+    logger.info("RAG chain ban rahi hai...")
     db = load_vector_store()
     retriever = db.as_retriever(
         search_type="similarity",
-        search_kwargs={"k": 3}  # 5 se 3 kiya — memory bachao
+        search_kwargs={"k": 3}
     )
 
     llm = ChatGroq(
         model="llama-3.3-70b-versatile",
         temperature=0.2,
         api_key=os.getenv("GROQ_API_KEY"),
-        max_tokens=512  # Response limit — memory bachao
+        max_tokens=512
     )
 
     prompt = ChatPromptTemplate.from_template(MEDICAL_PROMPT)
