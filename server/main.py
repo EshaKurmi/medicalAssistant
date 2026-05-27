@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from rag.chain import get_rag_chain
 from logger import logger
+import asyncio
 
 app = FastAPI(title="Medical Assistant API")
 
@@ -31,7 +32,7 @@ def health():
 async def chat(data: ChatRequest):
     global rag_chain
     if rag_chain is None:
-        logger.info("Pehli request — chain load ho rahi hai...")
+        logger.info("Chain load ho rahi hai...")
         rag_chain = get_rag_chain()
     try:
         logger.info(f"Query: {data.query}")
