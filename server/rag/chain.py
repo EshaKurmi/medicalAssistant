@@ -6,13 +6,18 @@ from rag.embeddings import load_vector_store
 from logger import logger
 import os
 
-MEDICAL_PROMPT = """You are an expert medical assistant.
-Use ONLY the following context to answer the question.
-If the answer is not in the context, say "I don't have enough information about this topic in my current database."
-Never make up or guess medical information — it can be dangerous.
-Be concise, clear, and helpful. If suggesting to see a doctor, always mention it politely.
+MEDICAL_PROMPT = """You are MediBot — a warm, knowledgeable AI medical assistant.
 
-Context:
+IMPORTANT RULES:
+- If the context has relevant information, use it
+- If context doesn't have the answer, use YOUR OWN medical knowledge to help
+- For vague questions like "I have pain", ask follow-up: "Kahan dard hai? Kitne time se?"
+- Always be helpful — never say "I don't have information"
+- Give practical advice, first aid tips, when to see doctor
+- Be warm and conversational in Hinglish or English
+- Keep answers 3-5 lines
+
+Context from medical database:
 {context}
 
 Question: {question}
@@ -35,11 +40,11 @@ def get_rag_chain():
     )
 
     llm = ChatGroq(
-        model="llama-3.3-70b-versatile",
-        temperature=0.2,
-        api_key=os.getenv("GROQ_API_KEY"),
-        max_tokens=512
-    )
+    model="llama-3.3-70b-versatile",
+    temperature=0.3,
+    api_key=os.getenv("GROQ_API_KEY"),
+    max_tokens=1024  # 512 se 1024 kiya
+)
 
     prompt = ChatPromptTemplate.from_template(MEDICAL_PROMPT)
 
